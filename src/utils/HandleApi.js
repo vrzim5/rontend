@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:5000";
+const baseURL = "https://todo-app-express-backend-rtbt.onrender.com";
 
 const getAllToDo = (setToDo) => {
   axios.get(`${baseURL}`).then(({ data }) => {
