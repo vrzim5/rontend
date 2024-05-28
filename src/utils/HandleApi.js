@@ -1,51 +1,64 @@
 import axios from "axios";
 
-const baseURL = "https://todo-app-express-backend-rtbt.onrender.com";
+const baseUrl = "http://localhost:5000";
 
 const getAllToDo = (setToDo) => {
-  axios.get(`${baseURL}`).then(({ data }) => {
-    console.log("data --->", data);
-    setToDo(data);
-  });
+  axios
+    .get(baseUrl)
+    .then(({ data }) => {
+      console.log('data ---> ', data);
+      setToDo(data);
+    })
+    .catch((err) => console.log(err));
 };
 
-const addToDo = (text, setText, setToDo) => {
+const addToDo = (text, prazo, prazoHora, setText, setPrazo, setPrazoHora, setToDo) => {
+  const prazoCompleto = `${prazo}T${prazoHora}`;
   axios
-    .post(`${baseURL}/save`, { text })
+    .post(`${baseUrl}/save`, { text, prazo: prazoCompleto })
     .then((data) => {
       console.log(data);
       setText("");
+      setPrazo("");
+      setPrazoHora("");
       getAllToDo(setToDo);
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => console.log(err));
 };
 
-const updateToDo = (toDoId, text, setToDo, setText, setIsUpdating) => {
+const updateToDo = (toDoId, text, prazo, prazoHora, setToDo, setText, setPrazo, setPrazoHora, setIsUpdating) => {
+  const prazoCompleto = `${prazo}T${prazoHora}`;
   axios
-    .post(`${baseURL}/update`, { _id: toDoId, text })
+    .post(`${baseUrl}/update`, { _id: toDoId, text, prazo: prazoCompleto })
     .then((data) => {
       console.log(data);
       setText("");
+      setPrazo("");
+      setPrazoHora("");
       setIsUpdating(false);
       getAllToDo(setToDo);
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => console.log(err));
 };
 
 const deleteToDo = (_id, setToDo) => {
   axios
-    .post(`${baseURL}/delete`, { _id })
+    .post(`${baseUrl}/delete`, { _id })
     .then((data) => {
       console.log(data);
       getAllToDo(setToDo);
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => console.log(err));
 };
 
-export { getAllToDo, addToDo, updateToDo, deleteToDo };
+const updateTaskCompletion = (toDoId, setToDo) => {
+  axios
+    .post(`${baseUrl}/complete`, { _id: toDoId })
+    .then((data) => {
+      console.log(data);
+      getAllToDo(setToDo);
+    })
+    .catch((err) => console.log(err));
+};
+
+export { getAllToDo, addToDo, updateToDo, deleteToDo, updateTaskCompletion };
