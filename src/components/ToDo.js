@@ -2,28 +2,22 @@ import React, { useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { LuCalendarClock, LuCalendarCheck, LuCalendarX, LuCalendarOff, LuCalendar } from "react-icons/lu";
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 
-const ToDo = ({ text, data, prazo, updateMode, deleteToDo }) => {
+const ToDo = ({ text, data, prazo, updateMode, deleteToDo, isCompleted }) => {
   const formatDate = (date) => {
     const d = new Date(date);
-    const day = String(d.getDate()).padStart(2, '0');
-    const month = String(d.getMonth() + 1).padStart(2, '0'); 
-    const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
+    return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
   };
 
   const formatTime = (date) => {
     const d = new Date(date);
-    const hours = String(d.getHours()).padStart(2, '0');
-    const minutes = String(d.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
+    return `${d.getHours()}:${d.getMinutes()}`;
   };
 
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleUpdate = () => {
-    updateMode(isCompleted);
+    updateMode();
   };
 
   const determineIcon = () => {
@@ -49,6 +43,14 @@ const ToDo = ({ text, data, prazo, updateMode, deleteToDo }) => {
     }
   };
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <div className="todo">
       <div className="task-details">
@@ -60,16 +62,22 @@ const ToDo = ({ text, data, prazo, updateMode, deleteToDo }) => {
           Prazo até: {formatDate(prazo)} às: {formatTime(prazo)}
         </div>
       </div>
-      <div className="icons">
+      <div
+        className="icons"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <div className="icon" onClick={handleUpdate}>
           {determineIcon()}
         </div>
-        <BiEdit className="icon" onClick={updateMode} />
-        <AiFillDelete className="icon" onClick={deleteToDo} />
-      </div>
-      <div className="complete-section">
-        <IoIosCheckmarkCircleOutline className="complete-button" onClick={() => setIsCompleted(!isCompleted)} />
-        <span>Marcar como concluída</span>
+        <BiEdit
+          className={`icon ${isHovered ? "hovered" : ""}`}
+          onClick={updateMode}
+        />
+        <AiFillDelete
+          className={`icon ${isHovered ? "hovered" : ""}`}
+          onClick={deleteToDo}
+        />
       </div>
     </div>
   );
