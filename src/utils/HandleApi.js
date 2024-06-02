@@ -51,14 +51,4 @@ const deleteToDo = (_id, setToDo) => {
     .catch((err) => console.log(err));
 };
 
-const updateTaskCompletion = (toDoId, setToDo) => {
-  axios
-    .post(`${baseUrl}/complete`, { _id: toDoId })
-    .then((data) => {
-      console.log(data);
-      getAllToDo(setToDo);
-    })
-    .catch((err) => console.log(err));
-};
-
-export { getAllToDo, addToDo, updateToDo, deleteToDo, updateTaskCompletion };
+export { getAllToDo, addToDo, updateToDo, deleteToDo,};
