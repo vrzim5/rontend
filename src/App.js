@@ -56,7 +56,7 @@ function App() {
                 : () => addToDo(text, prazo, prazoHora, setText, setPrazo, setPrazoHora, setToDo)
             }
           >
-            {isUpdating ? "Atualizar" : "Adicionar"}
+            {isUpdating ? "Atualizar e concluir" : "Adicionar"}
           </div>
         </div>
 
