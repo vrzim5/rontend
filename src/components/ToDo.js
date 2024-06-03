@@ -6,12 +6,17 @@ import { LuCalendarClock, LuCalendarCheck, LuCalendarX, LuCalendarOff, LuCalenda
 const ToDo = ({ text, data, prazo, updateMode, deleteToDo, isCompleted }) => {
   const formatDate = (date) => {
     const d = new Date(date);
-    return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
   };
 
   const formatTime = (date) => {
     const d = new Date(date);
-    return `${d.getHours()}:${d.getMinutes()}`;
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
   };
 
   const [isHovered, setIsHovered] = useState(false);
