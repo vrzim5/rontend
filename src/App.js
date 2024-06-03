@@ -1,7 +1,7 @@
+// App.js
 import React, { useEffect, useState } from "react";
 import ToDo from "./components/ToDo";
 import { addToDo, deleteToDo, getAllToDo, updateToDo } from "./utils/HandleApi";
-import { updateTaskCompletion } from "./utils/HandleApi"; 
 
 function App() {
   const [toDo, setToDo] = useState([]);
@@ -23,7 +23,8 @@ function App() {
   };
 
   const handleCompletion = (taskId) => {
-    updateTaskCompletion(taskId);
+    // Chamada para atualizar o status da tarefa
+    updateToDo(taskId, { completo: true }, setToDo);
   };
 
   return (
@@ -56,7 +57,7 @@ function App() {
                 : () => addToDo(text, prazo, prazoHora, setText, setPrazo, setPrazoHora, setToDo)
             }
           >
-            {isUpdating ? "Atualizar e concluir" : "Adicionar"}
+            {isUpdating ? "Atualizar e Concluir" : "Adicionar"}
           </div>
         </div>
 
@@ -67,10 +68,10 @@ function App() {
               text={item.text}
               data={item.data}
               prazo={item.prazo}
-              isCompleted={item.isCompleted} 
+              isCompleted={item.completo} // Corrigir para usar o campo correto
               updateMode={() => updateMode(item._id, item.text, item.prazo)}
               deleteToDo={() => deleteToDo(item._id, setToDo)}
-              handleCompletion={() => handleCompletion(item._id)} 
+              handleCompletion={() => handleCompletion(item._id)} // Chamar a função handleCompletion corretamente
             />
           ))}
         </div>
